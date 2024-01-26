@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+
+{% for post in posts %}
+<div class="card m-3 w-75 border border-secondary" style="max-width: 640px;">
+  <div class="d-flex justify-content-start p-3 " style="background-color:#176B87;" >
+      <img class=" rounded-circle article-img" src="{{ post.author.profile.image.url }}" style="height:40px; width:40px;">
+      <a href="{% url 'user-posts' post.author.username %}" class="ms-3  text-decoration-none text-light ">Posted by: {{ post.author }}</a>
+      <p class="text-secondary ms-5 text-light">{{ post.date_posted|date:"F d, Y" }}</p>
+  </div>
+
+  <div class="row g-0 ">
+    <div class="col-md-4">
+      {% if post.images %}
+      <img src="{{ post.images.url }}" class="img-fluid rounded-start img" alt="...">
+      {% endif %}
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">{{ post.content | truncatewords:5 }}</p>
+        <a href="{% url 'post-detail' post.id %}" class="btn btn-info btn-sm">View Post</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% if is_paginated %}
+
+  {% if page_obj.has_previous %}
+    <a href="?page=1" class="btn btn-outline-light mt-5 mb-5">First</a>
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-light mt-5 mb-5">Previous</a>
+  {% endif %}
+
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+      <a href="?page={{ num }}" class="btn btn-light mt-5 mb-5">{{ num }}</a>
+    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+      <a href="?page={{ num }}" class="btn btn-outline-light mt-5 mb-5">{{ num }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-light mt-5 mb-5">Next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-light mt-5 mb-5">Last</a>
+  {% endif %}
+
+{% endif %}
+
+{% endblock content %}
+

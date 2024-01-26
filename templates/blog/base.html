@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- Option 1: Include in HTML -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>Django Blog - {{ title }}</title>
+    {% else %}
+        <title>Django blog</title>
+    {% endif %}
+</head>
+<body style="background-color:#31304D;">
+
+<nav class="navbar navbar-nav-scroll navbar-expand-lg navbar-light " style="background-color:#EEF5FF; ">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'blog-home' %}">Blog App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item ms-5">
+          <a class="nav-link active" aria-current="page" href="{% url 'blog-home' %}"><i class="bi bi-house"></i> Home</a>
+        </li>
+
+
+      </ul>
+        {% if user.is_authenticated %}
+      <form class="d-flex">
+          <a class="nav-link active text-secondary" aria-current="page" href="{% url 'post-create' %}"><i class="bi bi-file-earmark-plus"></i> New Post</a>
+        <a class="nav-link active text-secondary" aria-current="page" href="{% url 'profile' %}"><i class="bi bi-person-fill"></i> Profile</a>
+        <a class="nav-link active text-secondary" aria-current="page" href="{% url 'logout' %}"><i class="bi bi-box-arrow-in-left"></i> Logout</a>
+      </form>
+        {% else %}
+      <form class="d-flex">
+        <a class="nav-link active text-secondary" aria-current="page" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+        <a class="nav-link active text-secondary" aria-current="page" href="{% url 'register' %}"><i class="bi bi-file-earmark-text"></i> Register</a>
+      </form>
+        {% endif %}
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="container w-75">
+    {% if messages %}
+     {% for message in messages %}
+       <div class="m-3 alert alert-{{ message.tags }}">
+           {{ message }}
+       </div>
+     {% endfor %}
+    {% endif %}
+    {% block content %} {% endblock content %}
+</div>
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

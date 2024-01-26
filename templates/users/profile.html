@@ -1,0 +1,37 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="card mb-3 mt-4 p-5" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      {% if user.userprofile.image %}
+      <img   src="{{ user.profile.image.url }}" class="img-fluid rounded-circle account-img" alt="...">
+      {% else %}
+      <img   src="{{ user.profile.image.url }}" class="img-fluid rounded-circle account-img" alt="...">
+      {% endif %}
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h3 class="card-title">{{ user.username }}</h3>
+        <p class="card-text">{{ user.email }}</p>
+      </div>
+    </div>
+  </div>
+  <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group text-light">
+            <legend class="border-bottom mb-4 text-light">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group mt-1 mb-1">
+            <button class="btn btn-primary" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock content %}
